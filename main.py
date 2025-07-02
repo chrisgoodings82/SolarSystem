@@ -75,15 +75,15 @@ def display_fact(response):
     output = ""
     if fact == "all":
         if planet == "all":
-            for planet in planets:
-                output += planet.display_all_data()
+            for item in planets:
+                output += item.display_all_data()
         else:
             pl = [p for p in planets if p.name == planet]
             output += pl.display_all_data()
     else:
         if planet == "all":
-            for planet in planets:
-                output += planet.display_fact(fact)
+            for item in planets:
+                output += item.display_fact(fact)
         else:
             pl = [p for p in planets if p.name == planet]
             output += pl.display_fact(fact)
@@ -119,7 +119,7 @@ def get_response(user_input):
     return parsed_response
 
 if __name__ == "__main__":
-    
+    init_planets()
     while True:
         print('Bot: ' + get_response(input('You: ')))
    

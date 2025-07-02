@@ -17,11 +17,11 @@ class planet:
                 self.radius = planet["radius"]
                 break
     
-    def moons_to_string():
-        if len(self.moons == 0):
+    def moons_to_string(self):
+        if len(self.moons) == 0:
             return ""
-        elif len(self.moons == 1):
-            return self.moon[0]
+        elif len(self.moons) == 1:
+            return self.moons[0]
         else:
             output = ""
             for index, item in enumerate(self.moons):
@@ -32,9 +32,9 @@ class planet:
             return output
 
     def display_all_data(self):
-        print(f"The planet {self.name} is positioned {self.distance} km from the Sun. It has a mass of {self.mass} kg, a radius of {self.radius} km.")
-        print(f"{self.name} has {self.satellites} moon{'s' if int(self.satellites) != 1 else ''}.")
-        output = ""
+        output = f"The planet {self.name} is positioned {self.distance} km from the Sun. It has a mass of {self.mass} kg, a radius of {self.radius} km."
+        output += f"{self.name} has {self.satellites} moon{'s' if int(self.satellites) != 1 else ''}."
+        
         if int(self.satellites) != 0:
             if int(self.satellites) == 1:
                 output += "This is: "
@@ -42,11 +42,10 @@ class planet:
                 output += "These are: "
             elif int(self.satellites) >= 3:
                 output += "The notable ones are: "
-                output += self.moons_to_string()
+            output += self.moons_to_string()
+        return output + "\n"
 
-            return output
-
-    def display_fact(fact):
+    def display_fact(self, fact):
         initial = f"The planet {self.name} "
         match fact:
             case "mass":
@@ -62,6 +61,6 @@ class planet:
             
         return f"{initial}{body}"
     
-    def export_data():
+    def export_data(self):
         return [self.name, self. mass, self.distance, self.satellites, self.moons, self.radius]
     
