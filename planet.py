@@ -32,7 +32,7 @@ class planet:
             return output
 
     def display_all_data(self):
-        output = f"The planet {self.name} is positioned {self.distance} km from the Sun. It has a mass of {self.mass} kg, a radius of {self.radius} km."
+        output = f"The planet {self.name} is positioned {self.distance} km from the Sun. It has a mass of {self.mass} kg, a radius of {self.radius} km. "
         output += f"{self.name} has {self.satellites} moon{'s' if int(self.satellites) != 1 else ''}."
         
         if int(self.satellites) != 0:
@@ -49,15 +49,15 @@ class planet:
         initial = f"The planet {self.name} "
         match fact:
             case "mass":
-                body = f"has a mass of {self.mass} kg."
+                body = f"has a mass of {self.mass} kg. "
             case "distance":
-                body = f"is {self.distance} km from the Sun."
+                body = f"is {self.distance} km from the Sun. "
             case "satellites":
-                body = f"has {self.satellites} moons."
+                body = f"has {self.satellites} moons. "
             case "moons":
-                body = f"has the following moons: {self.moons_to_string()}."
+                body = f"has the following moons: {self.moons_to_string()}. "
             case "radius":
-                body = f"has a radius of {self.radius} km."
+                body = f"has a radius of {self.radius} km. "
             
         return f"{initial}{body}"
     
