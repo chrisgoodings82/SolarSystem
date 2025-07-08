@@ -36,13 +36,17 @@ Tabulate can be installed inside a virtual environment using the following comma
 #### Windows
 
 > python -m venv .venv
+> 
 > .\\.venv\\Scripts\\activate
+> 
 > python -m pip install tabulate
 
 #### Linux or Mac
 
 > python -m venv .venv
+> 
 > .\\.venv\\bin\\activate
+> 
 > python -m pip install tabulate
 
 
