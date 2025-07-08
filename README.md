@@ -6,6 +6,7 @@ This is a console-based application that allows the user to ask questions in ord
 - Displays specific facts about Pluto.
 - Allows for a tabular comparison of all facts for all planets, or a single fact for all planets.
 
+
 ## Chat Bot
 
 The chat bot feature was implemented based on a guide from Indently [1]. I utilised the basic algorithms, but extended it to
@@ -23,6 +24,7 @@ The chat bot allows the user to enter questions such as:
 - Compare the mass of all planets?
 
 You can even greet the chatbot, and say goodbye to quit the application.
+
 
 ## Tabulate
 
@@ -42,6 +44,12 @@ Tabulate can be installed inside a virtual environment using the following comma
 > python -m venv .venv
 > .\\.venv\\bin\\activate
 > python -m pip install tabulate
+
+
+## Technical Details
+
+The application was built using Python 3.15
+
 
 ## References
 
