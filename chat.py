@@ -1,8 +1,8 @@
 #chat.py
 import long_responses as long
 import re
-import table
 from planets import planets
+from tabulate import tabulate
 
 class chat:
     def __init__(self):
@@ -48,6 +48,7 @@ class chat:
         # Salutations
         response("response | Hello!", ['hello', 'hi', 'sup', 'hey', 'heyo'], single_response=True)
         response("response | I\'m doing fine, and you?", ['how', 'are', 'you', 'doing'], required_words= ['how'])
+        response("response | Good bye", ['Goodbye', 'bye', 'sup', 'hey', 'heyo'], single_response=True)
 
         # Direct Responses
         response(f"response | {long.R_PLUTO}", ['is', 'pluto', 'a', 'planet'], required_words= ['pluto', 'planet'])
@@ -127,12 +128,12 @@ class chat:
         response(f"display | fact | radius | neptune", ['tell', 'me', 'show', 'display', 'present', 'radius', 'width', 'of', 'neptune'], required_words= ['neptune'])
 
         # Provide comparrison data
-        response(f"compare | all | all | all", ['tell', 'me', 'show', 'display', 'present', 'all', 'everything', 'about', 'relating', 'to', 'neptune'], required_words= ['neptune'])
-        response(f"compare | fact | mass | all", ['tell', 'me', 'show', 'display', 'present', 'mass', 'weight', 'massive', 'about', 'relating', 'to', 'neptune'], required_words= ['neptune'])
-        response(f"compare | fact | distance | all", ['tell', 'me', 'show', 'display', 'present', 'distance', 'how', 'far','from', 'the','sun', 'close', 'to', 'is', 'neptune'], required_words= ['neptune'])
-        response(f"compare | fact | satellites | all", ['tell', 'me', 'show', 'display', 'present', 'how', 'many', 'moons', 'satellitees', 'orbit', 'orbiting', 'neptune'], required_words= ['neptune'])
-        response(f"compare | fact | moons | all", ['what', 'are', 'list', 'show', 'display', 'the', 'moons', 'of', 'neptune'], required_words= ['neptune', 'moons'])
-        response(f"compare | fact | radius | all", ['tell', 'me', 'show', 'display', 'present', 'radius', 'width', 'of', 'neptune'], required_words= ['neptune'])
+        response(f"compare | all | all | all", ['compare', 'all', 'everything', 'about', 'relating', 'to', 'all', 'planets'], required_words= ['compare', 'all', 'planets'])
+        response(f"compare | fact | mass | all", ['compare', 'mass', 'weight', 'how', 'massive', 'of', 'all', 'planets'], required_words= ['compare', 'mass', 'planets'])
+        response(f"compare | fact | distance | all", ['compare', 'distance', 'how', 'far','from', 'the','sun', 'of', 'all', 'planets'], required_words= ['compare', 'distance', 'planets'])
+        response(f"compare | fact | satellites | all", ['compare', 'satellitees', 'of', 'all', 'planets'], required_words= ['compare', 'satellites', 'planets'])
+        response(f"compare | fact | moons | all", ['compare', 'the', 'moons', 'of', 'all', 'planets'], required_words= ['compare', 'planets', 'moons'])
+        response(f"compare | fact | radius | all", ['compare', 'radius', 'of', 'all', 'planets'], required_words= ['compare', 'radius', 'planets'])
 
         best_match = max(highest_prob_list, key=highest_prob_list.get)
         #print(highest_prob_list)
@@ -175,13 +176,20 @@ class chat:
         planet = split_response_string[3].strip()
         planet_list = []
         if fact == "all":
-            for planet in self.planet_instance:
+            for planet in self.planet_instance.get_all_planets():
                     planet_list.append(planet.export_data())
-            return table.table(planet_list)
+            return f"\n{tabulate(planet_list, ['Name', 'Mass (kg)', 'Distance (km)', 'Satelites', 'Moons', 'Radius (km)'], tablefmt='grid')}"
         else:
-            for planet in self.planet_instance:
-                    planet_list.append(planet.__getattribute__(fact))
-            return table.table(planet_list)
+            for planet in self.planet_instance.get_all_planets():
+                    if hasattr(planet, fact):
+                        planet_list.append(planet.export_fact(fact))
+            if fact in ['distance', 'radius']:
+                unit = ' (km)'
+            elif fact == 'mass':
+                unit = ' (kg)'
+            else:
+                unit = ''
+            return f"\n{tabulate(planet_list, ['Name', f"{fact}{unit}" ], tablefmt='grid')}"
 
     # Parse the response based on the type of response   
     def response_parser(self, response):

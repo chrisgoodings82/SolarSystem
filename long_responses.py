@@ -1,5 +1,4 @@
 import random
-from enum import Enum
 
 R_PLUTO = "Pluto, once considered the ninth planet, is now classified as a dwarf planet. It is located in the Kuiper Belt, a region beyond Neptune, and is known for its icy surface and five moons, the largest being Charon."
 

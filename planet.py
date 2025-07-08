@@ -62,5 +62,8 @@ class planet:
         return f"{initial}{body}"
     
     def export_data(self):
-        return [self.name, self. mass, self.distance, self.satellites, self.moons, self.radius]
+        return [self.name, self. mass, self.distance, self.satellites, self.moons_to_string(), self.radius]
     
+    def export_fact(self, fact):
+        if hasattr(self, fact):
+            return [self.name, self.__getattribute__(fact)]
