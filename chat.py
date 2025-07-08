@@ -48,7 +48,7 @@ class chat:
         # Salutations
         response("response | Hello!", ['hello', 'hi', 'sup', 'hey', 'heyo'], single_response=True)
         response("response | I\'m doing fine, and you?", ['how', 'are', 'you', 'doing'], required_words= ['how'])
-        response("response | Good bye", ['Goodbye', 'bye', 'sup', 'hey', 'heyo'], single_response=True)
+        response("response | Goodbye!", ['Goodbye', 'bye', 'quit'], single_response=True)
 
         # Direct Responses
         response(f"response | {long.R_PLUTO}", ['is', 'pluto', 'a', 'planet'], required_words= ['pluto', 'planet'])

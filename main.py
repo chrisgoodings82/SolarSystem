@@ -6,6 +6,7 @@ allow for specific information to be displayed.
 [1] Indently (2021) "How to create an accurate Chat Bot Response System in Python Tutorial (2021)". https://www.youtube.com/watch?v=Ea9jgBjQxEs. Accessed on: 02/07/2025
 '''
 
+import sys
 import chat
 from planets import planets
 
@@ -13,5 +14,9 @@ if __name__ == "__main__":
     planets_instance = planets()
     chat = chat.chat()
     while True:
-        print('Bot: ' + chat.get_response(input('You: ')))
+        response = chat.get_response(input('You: '))
+        print('Bot: ' + response)
+
+        if response == 'Goodbye!':
+            sys.exit()
    
