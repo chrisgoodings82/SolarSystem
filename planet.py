@@ -4,8 +4,15 @@ import json
 class planet:
 
     def __init__(self, name):
-        with open('planets.json', 'r') as file:
-            data = json.load(file)
+        try:
+            with open('planets.json', 'r') as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            raise FileNotFoundError("The file 'planets.json' was not found. Please ensure it exists in the correct directory.")
+        except json.JSONDecodeError:
+            raise ValueError("The file 'planets.json' is not a valid JSON file. Please check its contents.")    
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while reading 'planets.json': {e}")
         
         for planet in data['planets']:
             if planet['name'] == name:

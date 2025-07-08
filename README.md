@@ -29,6 +29,20 @@ You can even greet the chatbot, and say goodbye to quit the application.
 Tabular is a package that neatly presents data into tables [2]. It would have been possible to create my own table formatting class, but as the 
 tabular display was not a key component of the assignment, I chose to use a pre-existing package.
 
+Tabulate can be installed inside a virtual environment using the following commands:
+
+#### Windows
+
+> python -m venv .venv
+> .\\.venv\\Scripts\\activate
+> python -m pip install tabulate
+
+#### Linux or Mac
+
+> python -m venv .venv
+> .\\.venv\\bin\\activate
+> python -m pip install tabulate
+
 ## References
 
 [1] Indently (2021) "How to create an accurate Chat Bot Response System in Python Tutorial (2021)". *https://www.youtube.com/watch?v=Ea9jgBjQxEs* Accessed on: 30/06/2025

@@ -11,12 +11,18 @@ import chat
 from planets import planets
 
 if __name__ == "__main__":
-    planets_instance = planets()
-    chat = chat.chat()
-    while True:
-        response = chat.get_response(input('You: '))
-        print('Bot: ' + response)
+    try:
+        planets_instance = planets()
+        chat = chat.chat()
+        while True:
+            response = chat.get_response(input('You: '))
+            print('Bot: ' + response)
 
-        if response == 'Goodbye!':
-            sys.exit()
+            if response == 'Goodbye!':
+                sys.exit()
+    except KeyboardInterrupt:
+        print("\nExiting chat. Goodbye!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit(1) 
    

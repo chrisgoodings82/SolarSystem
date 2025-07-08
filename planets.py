@@ -1,9 +1,13 @@
+# planets.py
+# This is a singleton class that instantiates and manages data presentation of the planets
+
 import planet
 
 class planets:
 
     _instance = None
-    # Constructor to initialize the planets list with the eight major planets
+    # Constructor to initialize the instance of the if it has not yet been created
+    # and return the instance of the class
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(planets, cls).__new__(cls)

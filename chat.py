@@ -6,31 +6,47 @@ from tabulate import tabulate
 
 class chat:
     def __init__(self):
+        # Get the singleton instance of the planets class
         self.planet_instance = planets()
 
     # Determine how close the user message is to each predefined message
     # and return the percentage of recognised words in the message.
     def message_probability(self, user_message, recognised_words, single_response=False, required_words=[]):
-        message_certainty = 0
-        has_required_words = True
+        try:
+            message_certainty = 0
+            has_required_words = True
 
-        # Count how many words are present in each predefined message
-        for word in user_message:
-            if word in recognised_words:
-                message_certainty += 1
+            # Count how many words are present in each predefined message
+            for word in user_message:
+                if word in recognised_words:
+                    message_certainty += 1
 
-        # Calculate the percent of recognised words in a user message
-        percentage = float(message_certainty) / float(len(recognised_words))
+            # Calculate the percent of recognised words in a user message
+            percentage = float(message_certainty) / float(len(recognised_words))
 
-        for word in required_words:
-            if word not in user_message:
-                has_required_words = False
-                break
-        
-        # Convert to a percentage
-        if has_required_words or single_response:
-            return int(percentage*100)
-        else:
+            for word in required_words:
+                if word not in user_message:
+                    has_required_words = False
+                    break
+            
+            # Convert to a percentage
+            if has_required_words or single_response:
+                return int(percentage*100)
+            else:
+                return 0
+        except ZeroDivisionError:
+            # If the predefined message has no words, return 0
+            return 0
+        except TypeError:
+            # If the user message is not a list, return 0
+            print("TypeError: user_message should be a list of words.")
+            return 0
+        except ValueError:
+            # If the percentage calculation fails, return 0
+            print("ValueError: Invalid value encountered in message_probability.")
+            return 0    
+        except Exception as e:
+            print(f"An error occurred in message_probability: {e}")
             return 0
 
     # Check the user message against all predefined messages
@@ -147,49 +163,60 @@ class chat:
     # If the fact is "all", then all data is displayed, else only the specified fact is displayed.
     # If the planet is "all", then all planets are displayed, else only the specified planet    
     def display_fact(self, response):
-        split_response_string = self.split_response(response)
-        fact = split_response_string[2].strip()
-        planet = split_response_string[3].strip()
-        output = ""
-        if fact == "all":           
-            if planet == "all":     # Display all data for all planets
-                for item in self.planet_instance.get_all_planets():
-                    output += item.display_all_data()
-            else:                   # Display all data for a specific planet
-                pl = [p for p in self.planet_instance.get_all_planets() if p.name.lower() == planet.lower()]
-                output += pl[0].display_all_data()
-        else:
-            if planet == "all":     # Display a specific fact for all planets
-                for item in self.planet_instance.get_all_planets():
-                    output += item.display_fact(fact)
-            else:                   # Display a specific fact for a specific planet 
-                pl = self.planet_instance.get_planet(planet)
-                output += pl.display_fact(fact)
-        return output
+        try:
+            split_response_string = self.split_response(response)
+            fact = split_response_string[2].strip()
+            planet = split_response_string[3].strip()
+            output = ""
+            if fact == "all":           
+                if planet == "all":     # Display all data for all planets
+                    for item in self.planet_instance.get_all_planets():
+                        output += item.display_all_data()
+                else:                   # Display all data for a specific planet
+                    pl = [p for p in self.planet_instance.get_all_planets() if p.name.lower() == planet.lower()]
+                    output += pl[0].display_all_data()
+            else:
+                if planet == "all":     # Display a specific fact for all planets
+                    for item in self.planet_instance.get_all_planets():
+                        output += item.display_fact(fact)
+                else:                   # Display a specific fact for a specific planet 
+                    pl = self.planet_instance.get_planet(planet)
+                    output += pl.display_fact(fact)
+            return output
+        except IndexError:
+            return "Error: Invalid response format. Please check the input."
+        except Exception as e:
+            return f"An error occurred while displaying the fact: {e}"
+
 
     # Compare the specified fact for all planets or a specific planet
     # If the fact is "all", then all data is displayed, else only the specified fact   
     # If the planet is "all", then all planets are displayed, else only the specified planet
     def compare_fact(self, response):
-        split_response_string = self.split_response(response)
-        fact = split_response_string[2].strip()
-        planet = split_response_string[3].strip()
-        planet_list = []
-        if fact == "all":
-            for planet in self.planet_instance.get_all_planets():
-                    planet_list.append(planet.export_data())
-            return f"\n{tabulate(planet_list, ['Name', 'Mass (kg)', 'Distance (km)', 'Satelites', 'Moons', 'Radius (km)'], tablefmt='grid')}"
-        else:
-            for planet in self.planet_instance.get_all_planets():
-                    if hasattr(planet, fact):
-                        planet_list.append(planet.export_fact(fact))
-            if fact in ['distance', 'radius']:
-                unit = ' (km)'
-            elif fact == 'mass':
-                unit = ' (kg)'
+        try:
+            split_response_string = self.split_response(response)
+            fact = split_response_string[2].strip()
+            planet = split_response_string[3].strip()
+            planet_list = []
+            if fact == "all":
+                for planet in self.planet_instance.get_all_planets():
+                        planet_list.append(planet.export_data())
+                return f"\n{tabulate(planet_list, ['Name', 'Mass (kg)', 'Distance (km)', 'Satelites', 'Moons', 'Radius (km)'], tablefmt='grid')}"
             else:
-                unit = ''
-            return f"\n{tabulate(planet_list, ['Name', f"{fact}{unit}" ], tablefmt='grid')}"
+                for planet in self.planet_instance.get_all_planets():
+                        if hasattr(planet, fact):
+                            planet_list.append(planet.export_fact(fact))
+                if fact in ['distance', 'radius']:
+                    unit = ' (km)'
+                elif fact == 'mass':
+                    unit = ' (kg)'
+                else:
+                    unit = ''
+                return f"\n{tabulate(planet_list, ['Name', f"{fact}{unit}" ], tablefmt='grid')}"
+        except IndexError:
+            return "Error: Invalid response format. Please check the input."
+        except Exception as e:  
+            return f"An error occurred while comparing the fact: {e}"
 
     # Parse the response based on the type of response   
     def response_parser(self, response):
